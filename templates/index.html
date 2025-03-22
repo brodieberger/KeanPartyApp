@@ -71,6 +71,8 @@
         <!-- Display banners -->
         {% if location.is_happy_hour %}
             <div class="banner happy-hour">Currently in Happy Hour</div>
+        {% elif location.is_most_popular %}
+            <div class="banner peak-hours">Currently in Peak Hours</div>
         {% endif %}
     
         <h3>{{ location.name }}</h3>
@@ -93,7 +95,7 @@
             View Details
         </a>
     </div>
-    {% endfor %}
+{% endfor %}
 {% endif %}
 
 </body>
