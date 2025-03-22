@@ -1,0 +1,14 @@
+#Project Stuff
+dbconnect.py
+dbconfig.php
+__pycache__
+app.yaml
+keys.py
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so

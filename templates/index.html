@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Restaurants</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: auto;
+            padding: 10px;
+            width: 400px;
+        }
+        form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+        }
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .restaurant {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .restaurant a {
+            text-decoration: none;
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Find Nearby Locations</h1>
+
+<form method="POST">
+    <label for="address" style="display: none;">Enter your address:</label>
+    <input type="text" name="address" id="address" placeholder="Enter your address" required>
+    <button type="submit">Search</button>
+</form>
+
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% elif restaurants %}
+    <h2>Locations Near "{{ address }}":</h2>
+    {% for restaurant in restaurants %}
+        <div class="restaurant">
+            <a href="/details?name={{ restaurant.name }}&address={{ restaurant.address }}&lat={{ restaurant.lat }}&lng={{ restaurant.lng }}">
+                <h3>{{ restaurant.name }}</h3>
+                <p>{{ restaurant.address }}</p>
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>

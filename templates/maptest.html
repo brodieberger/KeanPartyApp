@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Marker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- The callback parameter is required, so we use console.debug as a noop -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKkS9-1UhNm0PxNao6m5E-B0VKHDy9YQ4&callback=console.debug&libraries=maps,marker&v=beta">
+    </script>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      gmp-map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 400px;
+        max-width: 400px;
+        margin: 0;
+        padding: 10px;
+        margin: auto;
+
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BROMIE BURGER LAND</h1>
+    <gmp-map center="40.12150192260742,-100.45039367675781" zoom="4" map-id="DEMO_MAP_ID">
+      <gmp-advanced-marker position="40.12150192260742,-100.45039367675781" title="My location"></gmp-advanced-marker>
+    </gmp-map>
+  </body>
+</html>
+
+
