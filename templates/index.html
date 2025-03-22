@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nearby Restaurants</title>
+    <title>Nearby Locations</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,52 +11,88 @@
             padding: 10px;
             width: 400px;
         }
-        form {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        input[type="text"] {
-            flex: 1;
-            padding: 10px;
-        }
-        button {
-            padding: 10px;
-            cursor: pointer;
-        }
-        .restaurant {
+        .location {
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            position: relative;
         }
-        .restaurant a {
-            text-decoration: none;
-            color: inherit;
+        .banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 5px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+        .peak-hours {
+            background-color: red;
+        }
+        .happy-hour {
+            background-color: green;
+        }
+        .info {
+            margin-top: 20px;
+        }
+        .info p {
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
 
-<h1>Find Nearby Locations</h1>
+<h1>Nearby Locations</h1>
 
 <form method="POST">
     <label for="address" style="display: none;">Enter your address:</label>
     <input type="text" name="address" id="address" placeholder="Enter your address" required>
+    
+    <label for="location_type">What are you looking for?</label>
+    <select name="location_type" id="location_type" required>
+        <option value="bar">Bar</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="night_club">Night Club</option>
+        <option value="tourist_attraction">Tourist Attraction</option>
+    </select>
+    
     <button type="submit">Search</button>
 </form>
 
 {% if error %}
     <p style="color: red;">{{ error }}</p>
-{% elif restaurants %}
-    <h2>Locations Near "{{ address }}":</h2>
-    {% for restaurant in restaurants %}
-        <div class="restaurant">
-            <a href="/details?name={{ restaurant.name }}&address={{ restaurant.address }}&lat={{ restaurant.lat }}&lng={{ restaurant.lng }}">
-                <h3>{{ restaurant.name }}</h3>
-                <p>{{ restaurant.address }}</p>
-            </a>
-        </div>
+{% elif locations %}
+    <h2>{{ location_type|capitalize }}s Near "{{ address }}":</h2>
+    {% for location in locations %}
+    <div class="location">
+        <!-- Display banners -->
+        {% if location.is_happy_hour %}
+            <div class="banner happy-hour">Currently in Happy Hour</div>
+        {% endif %}
+    
+        <h3>{{ location.name }}</h3>
+        <p><strong>Address:</strong> {{ location.address }}</p>
+        <p><strong>Distance:</strong> {{ location.distance }} km</p>
+        {% if location.closing_time %}
+            <p><strong>Closing Time:</strong> {{ location.closing_time }}</p>
+        {% else %}
+            <p><strong>Closing Time:</strong> Not available</p>
+        {% endif %}
+        {% if location.happy_hour %}
+            <p><strong>Happy Hour:</strong></p>
+            <ul>
+                {% for day in location.happy_hour %}
+                    <li>{{ day }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <a href="/details?name={{ location.name }}&address={{ location.address }}&lat={{ location.lat }}&lng={{ location.lng }}&place_id={{ location.place_id }}">
+            View Details
+        </a>
+    </div>
     {% endfor %}
 {% endif %}
 
